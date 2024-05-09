@@ -1,11 +1,10 @@
-import json
 from datetime import datetime, timedelta
 
-from PIL import Image
 import requests
 import customtkinter
 
-from .config import API_KEY
+from PIL import Image
+
 
 
 class App(customtkinter.CTk):
@@ -15,7 +14,7 @@ class App(customtkinter.CTk):
         self.setup_ui()
         
         self.BASE_URL = "https://api.openweathermap.org/data/2.5/weather"
-        self.API_KEY = API_KEY
+        self.API_KEY = "API_KEY" # Your api key in openweathermap
 
         
 
@@ -132,8 +131,7 @@ class App(customtkinter.CTk):
         
     def get_weather_data(self):
         # Получаем данные о погоде 
-        req = requests.get(f"{self.BASE_URL}?q={self.city_entry.get()}&lang=ru&appid={self.API_KEY}")
-        weather_data = json.loads(req.text)
+        weather_data = requests.get(f"{self.BASE_URL}?q={self.city_entry.get()}&lang=ru&appid={self.API_KEY}").json()
 
         # Проверяем есть ли данные о погоде
         if weather_data["cod"] == "404":
